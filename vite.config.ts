@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { loadEnvTyped } from './src/utils/env'
+import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnvTyped(mode)
   return {
@@ -9,7 +10,7 @@ export default defineConfig(({ mode }) => {
       __API_APP_PORT__: env.VITE_APP_PORT,
       __KEY_STORAGE_ACCOUNT__: JSON.stringify(env.VITE_KEY_STORAGE_ACCOUNT)
     },
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     server: {
       port: env.VITE_APP_PORT
     }

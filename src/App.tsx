@@ -1,14 +1,10 @@
-import './App.css'
-
 function App() {
-  const arr = [1, 2]
   return (
     <>
-      <div style={{ padding: 20 }}>
+      <div>
         <h1>Vite + React + TypeScript</h1>
         <p>API: {__API_URL__}</p>
         <p>Run at: {__API_APP_PORT__}</p>
-        <p>{arr}</p>
       </div>
     </>
   )

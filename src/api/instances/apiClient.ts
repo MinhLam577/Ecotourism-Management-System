@@ -1,11 +1,13 @@
-// import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+// import axios, {
+//     AxiosError,
+//     type AxiosRequestConfig,
+//     type AxiosResponse,
+// } from "axios";
 // import secureLocalStorage from "react-secure-storage";
-// import { keyStorageAccount } from "../constants/index";
 // import { jwtDecode } from "jwt-decode";
 // import endpoints from "./endpoints";
 // import { LoginResponse } from "src/types/userLogin.type";
 // import { AccountObservable } from "src/stores/account.store";
-// import { BACKEND_BASE } from "src/config/api.config";
 // let isRefreshing = false;
 // let refreshSubscribers: ((token: string) => void)[] = [];
 // const subscribeTokenRefresh = (cb: (token: string) => void) => {
@@ -28,7 +30,7 @@
 // };
 
 // const apiClient = axios.create({
-//     baseURL: BACKEND_BASE,
+//     baseURL: __API_URL__,
 //     timeout: 30000,
 //     headers: {
 //         "Content-Type": "application/json",
@@ -197,6 +199,6 @@
 // };
 // apiClient.interceptors.response.use(handleSuccess, handleError);
 // const checkLogout = async () => {
-//     await secureLocalStorage.removeItem(keyStorageAccount);
+//     await secureLocalStorage.removeItem(__KEY_STORAGE_ACCOUNT__);
 //     if (window.location.pathname !== "/login") window.location.href = "/login";
 // };

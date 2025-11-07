@@ -1,12 +1,19 @@
+import Box from '@mui/material/Box'
+import MainLayout from './container/layout/main-layout'
+import { Suspense } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router'
 function App() {
   return (
-    <>
-      <div>
-        <h1>Vite + React + TypeScript</h1>
-        <p>API: {__API_URL__}</p>
-        <p>Run at: {__API_APP_PORT__}</p>
-      </div>
-    </>
+    <BrowserRouter>
+      <MainLayout>
+        <Suspense fallback={<div>Đang tải...</div>}>
+          <Routes>
+            <Route path="/" element={<Box className="bg-secondary">header</Box>} />
+            <Route path="*" element={<div>404 - Không tìm thấy trang</div>} />
+          </Routes>
+        </Suspense>
+      </MainLayout>
+    </BrowserRouter>
   )
 }
 

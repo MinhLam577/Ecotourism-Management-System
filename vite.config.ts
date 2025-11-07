@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import { loadEnvTyped } from './src/utils/env'
+import { loadEnvTyped } from './src/utils/env.utils'
 import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnvTyped(mode)

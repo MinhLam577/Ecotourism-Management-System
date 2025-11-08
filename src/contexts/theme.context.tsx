@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { lightTheme } from '../config'
-import { darkTheme } from '../config'
-import type { ThemeContextProviderProps } from '../types/theme'
+import { lightTheme } from '~/config'
+import { darkTheme } from '~/config'
+import type { ThemeContextProviderProps } from '~/types/theme'
 
 export function ThemeContextProvider({
   children,

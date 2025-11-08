@@ -1,7 +1,7 @@
-@import './reset.css';
+@import "./reset.css";
 
 @layer theme, base, mui, components, utilities;
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme inline {
   /* Material UI typography */

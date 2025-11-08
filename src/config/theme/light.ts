@@ -1,6 +1,6 @@
-import { createTheme } from '@mui/material/styles'
-import { baseOptions } from './base'
-import type { ThemeOptions } from '@mui/material/styles'
+import { createTheme } from "@mui/material/styles"
+import { baseOptions } from "./base"
+import type { ThemeOptions } from "@mui/material/styles"
 
 const light = createTheme(
   {
@@ -9,7 +9,9 @@ const light = createTheme(
   {
     colorSchemes: {
       light: {
-        palette: { mode: 'light' }
+        palette: {
+          mode: "light"
+        }
       } satisfies Partial<ThemeOptions>
     }
   }

@@ -1,5 +1,5 @@
 import { useColorScheme } from '@mui/material/styles'
-import type { CurrentThemeMode, ThemeMode } from '../types/theme'
+import type { CurrentThemeMode, ThemeMode } from '~/types/theme'
 export function useThemeMode() {
   const { mode, setMode, systemMode } = useColorScheme()
   const currentThemeMode = mode === 'system' ? systemMode : mode

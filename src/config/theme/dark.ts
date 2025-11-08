@@ -1,6 +1,6 @@
-import { createTheme } from '@mui/material/styles'
-import type { ThemeOptions } from '@mui/material/styles'
-import { baseOptions } from './base'
+import { createTheme } from "@mui/material/styles"
+import type { ThemeOptions } from "@mui/material/styles"
+import { baseOptions } from "./base"
 
 const dark = createTheme(
   {
@@ -9,7 +9,7 @@ const dark = createTheme(
   {
     colorSchemes: {
       dark: {
-        palette: { mode: 'dark' }
+        palette: { mode: "dark" }
       } satisfies Partial<ThemeOptions>
     }
   }

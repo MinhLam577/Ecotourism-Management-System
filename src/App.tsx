@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box'
-import MainLayout from './container/layout/main-layout'
-import { Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router'
+import Box from "@mui/material/Box"
+import MainLayout from "~/components/layout/main-layout"
+import { Suspense } from "react"
+import { BrowserRouter, Routes, Route } from "react-router"
 function App() {
   return (
     <BrowserRouter>

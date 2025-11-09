@@ -6,8 +6,8 @@ import Box from '@mui/material/Box'
 
 export default function ActivityCard({
   title,
-  titleColorClassName,
-  bgColorClassName,
+  bgClassName,
+  titleClassName,
   customClassNameWrapper,
   customClassNameTitle,
   data
@@ -18,7 +18,7 @@ export default function ActivityCard({
         bgcolor: 'common.white'
       }}
       className={cn(
-        `flex flex-col  p-[2.4rem]! gap-[2.4rem] rounded-3xl shadow-3xl ${bgColorClassName} `,
+        `flex flex-col  p-[2.4rem]! gap-[2.4rem] rounded-3xl shadow-3xl ${bgClassName} `,
         customClassNameWrapper
       )}
     >
@@ -28,7 +28,7 @@ export default function ActivityCard({
           backgroundClip: 'text',
           color: 'transparent'
         }}
-        className={cn(`${titleColorClassName} text-[1.6rem]!`, customClassNameTitle)}
+        className={cn(`${titleClassName} text-[1.6rem]!`, customClassNameTitle)}
       >
         {title}
       </Typography>

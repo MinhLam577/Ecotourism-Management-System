@@ -7,7 +7,7 @@ import { ThemeContext } from './themeContext'
 
 export function ThemeContextProvider({
   children,
-  defaultMode = 'system'
+  defaultMode = 'light'
 }: ThemeContextProviderProps) {
   const { mode, setMode, systemMode } = useColorScheme()
   // Xác định mode thực tế để dùng

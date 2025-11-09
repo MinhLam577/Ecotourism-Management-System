@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { loadEnv } from 'vite'
 
 export function loadEnvTyped(mode: string): ImportMetaEnv {

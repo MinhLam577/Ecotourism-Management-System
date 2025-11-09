@@ -1,6 +1,5 @@
-// src/utils/cn.ts
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -8,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function normalizeTailwindColor(value: string, alpha = 1): string {
   // Nếu là mã hex (#aabbcc)
-  if (value.startsWith("#")) {
+  if (value.startsWith('#')) {
     // chuyển sang rgba
     const bigint = parseInt(value.slice(1), 16)
     const r = (bigint >> 16) & 255
@@ -18,13 +17,13 @@ export function normalizeTailwindColor(value: string, alpha = 1): string {
   }
 
   // Nếu là oklch(...) thì thêm alpha vào
-  if (value.startsWith("oklch(")) {
-    return value.replace(")", ` / ${alpha})`)
+  if (value.startsWith('oklch(')) {
+    return value.replace(')', ` / ${alpha})`)
   }
 
   // Nếu là rgb/hsl thì thêm alpha đúng cú pháp
-  if (value.startsWith("rgb(") || value.startsWith("hsl(")) {
-    return value.replace(")", ` / ${alpha})`)
+  if (value.startsWith('rgb(') || value.startsWith('hsl(')) {
+    return value.replace(')', ` / ${alpha})`)
   }
 
   // fallback

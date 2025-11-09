@@ -1,3 +1,5 @@
+import type { Theme } from '@mui/material/styles'
+
 /** Theme mode cho MUI */
 export type ThemeMode = 'light' | 'dark' | 'system'
 
@@ -8,4 +10,11 @@ export type CurrentThemeMode = 'light' | 'dark'
 export interface ThemeContextProviderProps {
   children: React.ReactNode
   defaultMode?: ThemeMode
+}
+
+interface ThemeContextType {
+  mode: ThemeMode | undefined
+  setMode: (mode: ThemeMode) => void
+  currentMode: CurrentThemeMode | undefined
+  theme: Theme
 }

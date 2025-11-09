@@ -1,13 +1,13 @@
 // import Box from "@mui/material/Box"
 // import Typography from "@mui/material/Typography"
-import { pxToRem } from "~/utils/convert-px-to-unit.utils"
-import Drawer from "@mui/material/Drawer"
-import { sidebarConfig } from "./siderBarConfig"
-import SideBarItem from "./siderBarItem"
-import List from "@mui/material/List"
-import SideBarHeader from "./sideBarHeader"
-import { type Dispatch, type SetStateAction } from "react"
-import { useTheme } from "@mui/material/styles"
+import { pxToRem } from '~/utils/convert-px-to-unit.utils'
+import Drawer from '@mui/material/Drawer'
+import { sidebarConfig } from './siderBarConfig'
+import SideBarItem from './siderBarItem'
+import List from '@mui/material/List'
+import SideBarHeader from './sideBarHeader'
+import { type Dispatch, type SetStateAction } from 'react'
+import { useTheme } from '@mui/material/styles'
 interface SideBarProps {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
@@ -20,15 +20,15 @@ const SideBar = ({ open, setOpen }: SideBarProps) => {
       variant="persistent"
       anchor="left"
       sx={{
-        width: open ? "100%" : pxToRem(64),
+        width: open ? '100%' : theme.customLayout.closeSideBarSide,
         flexShrink: 0,
-        "& .MuiDrawer-paper": {
+        '& .MuiDrawer-paper': {
           width: open ? theme.customLayout.openSideBarSide : theme.customLayout.closeSideBarSide,
-          transition: (theme) => theme.transitions.create("width"),
-          overflowX: "hidden",
-          backgroundColor: "common.white",
-          borderRight: "1px solid",
-          borderColor: "grey.200"
+          transition: (theme) => theme.transitions.create('width'),
+          overflowX: 'hidden',
+          backgroundColor: 'common.white',
+          borderRight: '1px solid',
+          borderColor: 'grey.200'
         }
       }}
     >

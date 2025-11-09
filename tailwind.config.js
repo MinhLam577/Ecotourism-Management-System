@@ -15,7 +15,7 @@ export default {
   plugins: [
     plugin(function ({ addBase }) {
       addBase({
-        html: { fontSize: "62.5%" } // Or "10px" directly if you prefer
+        html: { fontSize: "62.5%" }
       })
     })
   ]

@@ -15,7 +15,7 @@ const buttonVariants = cva('', {
       text: 'bg-transparent',
       ghost: 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800',
       gradient:
-        'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
+        'bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
     },
     twSize: {
       normal: '',

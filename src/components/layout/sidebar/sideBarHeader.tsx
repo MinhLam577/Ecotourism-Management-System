@@ -1,9 +1,9 @@
-import BaseButton from "~/components/common/BaseButton"
-import { pxToRem } from "~/utils/convert-px-to-unit.utils"
-import MenuIcon from "@mui/icons-material/Menu"
-import type { Dispatch, SetStateAction } from "react"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
+import BaseButton from '~/components/common/BaseButton'
+import { pxToRem } from '~/utils/convert-px-to-unit.utils'
+import MenuIcon from '@mui/icons-material/Menu'
+import type { Dispatch, SetStateAction } from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 interface SideBarHeaderProps {
   open: boolean
@@ -13,22 +13,22 @@ const SideBarHeader = ({ open, setOpen }: SideBarHeaderProps) => {
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         padding: pxToRem(16),
-        borderBottom: "1px solid",
-        borderColor: "grey.200",
-        position: "sticky",
+        borderBottom: '1px solid',
+        borderColor: 'grey.200',
+        position: 'sticky',
         top: 0,
-        backgroundColor: "common.white",
+        bgcolor: 'common.white',
         zIndex: 1,
         minHeight: pxToRem(64),
         // Khi mini → chỉ giữ icon, căn giữa
         ...(open
           ? {}
           : {
-              justifyContent: "center",
+              justifyContent: 'center',
               padding: (theme) => theme.customLayout.closePaddingSideBar
             })
       }}
@@ -39,13 +39,13 @@ const SideBarHeader = ({ open, setOpen }: SideBarHeaderProps) => {
           fontSize: pxToRem(20),
           fontWeight: 600,
           background: (theme) => theme.customBackgroundColor.main,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
           opacity: open ? 1 : 0,
-          width: open ? "auto" : 0,
-          transition: "opacity 0.2s ease, width 0.2s ease",
-          overflow: "hidden",
-          whiteSpace: "nowrap"
+          width: open ? 'auto' : 0,
+          transition: 'opacity 0.2s ease, width 0.2s ease',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap'
         }}
       >
         Admin Panel
@@ -59,15 +59,15 @@ const SideBarHeader = ({ open, setOpen }: SideBarHeaderProps) => {
           width: pxToRem(40),
           height: pxToRem(40),
           padding: 0,
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          transition: "all 0.2s ease",
-          color: "common.black",
-          "&:hover": {
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'all 0.2s ease',
+          color: 'common.black',
+          '&:hover': {
             background: (theme) => theme.customBackgroundColor.hoverListItemColor,
-            "& svg": {
+            '& svg': {
               color: (theme) => theme.palette.success.dark
             }
           }
@@ -76,9 +76,9 @@ const SideBarHeader = ({ open, setOpen }: SideBarHeaderProps) => {
         <MenuIcon
           sx={{
             fontSize: pxToRem(20),
-            color: "common.black",
-            transition: "transform 0.3s ease, color 0.2s ease",
-            transform: open ? "rotate(0deg)" : "rotate(180deg)"
+            color: 'common.black',
+            transition: 'transform 0.3s ease, color 0.2s ease',
+            transform: open ? 'rotate(0deg)' : 'rotate(180deg)'
           }}
         />
       </BaseButton>
@@ -87,32 +87,3 @@ const SideBarHeader = ({ open, setOpen }: SideBarHeaderProps) => {
 }
 
 export default SideBarHeader
-
-// const SideBarHeader = ({ setOpen }: SideBarHeaderProps) => {
-//   return (
-//     <BaseButton
-//       className="min-w-fit! text-current! bg-none! shadow-none! text-xl! p-4! rounded-3xl!"
-//       sx={{
-//         width: pxToRem(32),
-//         "&:hover": (theme) => ({
-//           background: theme.customBackgroundColor.hoverListItemColor,
-//           "& svg": (theme) => ({
-//             color: theme.palette.success.dark
-//           })
-//         })
-//       }}
-//       onClick={() => {
-//         setOpen((o) => !o)
-//       }}
-//     >
-//       <MenuIcon
-//         sx={{
-//           fontSize: pxToRem(20),
-//           color: "currentcolor"
-//         }}
-//       />
-//     </BaseButton>
-//   )
-// }
-
-// export default SideBarHeader

@@ -69,9 +69,15 @@ jobs:
           yarn build
           cp netlify.toml dist/
 
+      - name: Create .env from Secret
+        run: |
+          echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+
       - name: Import .env to Netlify
         if: ${{ hashFiles('.env') != '' }}
-        run: npx netlify-cli env:import .env --replace-existing --scope build
+        run: |
+          npx netlify-cli env:import .env --replace-existing --scope build
+          echo "import .env file to netlify successfully"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

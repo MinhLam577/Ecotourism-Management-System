@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnvTyped(mode)
   return {
+    base: './',
     define: {
       __API_URL__: JSON.stringify(env.VITE_API_URL),
       __API_APP_PORT__: Number(env.VITE_APP_PORT),
@@ -18,6 +19,9 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: [{ find: '~', replacement: '/src' }]
+    },
+    build: {
+      outDir: 'dist'
     }
   }
 })

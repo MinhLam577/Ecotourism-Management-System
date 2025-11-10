@@ -37,10 +37,63 @@ jobs:
       - name: Build Project
         run: yarn build
 
-  deploy:
-    name: Deploy to Netlify
+  deploy-preview:
+    name: Deploy Preview (PR)
     needs: build
-    if: github.ref == 'refs/heads/main'
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Create .env from Secret
+        run: |
+          echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+
+      - name: Import .env to Netlify
+        if: ${{ hashFiles('.env') != '' }}
+        run: |
+          npx netlify-cli env:import .env --replace-existing
+
+      - name: Deploy Preview to Netlify
+        id: netlify_deploy
+        run: |
+          OUTPUT=$(npx netlify-cli deploy \
+          --site=$NETLIFY_SITE_ID \
+          --auth=$NETLIFY_AUTH_TOKEN \
+          --message="PR #${{ github.event.pull_request.number }}" \
+          --json)
+          URL=$(echo "$OUTPUT" | jq -r '.deploy_url')
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Comment PR with Preview URL
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GIT_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Preview URL: ${{ steps.netlify_deploy.outputs.url }}`
+            })
+
+  deploy-production:
+    name: Deploy to Netlify
+    needs: deploy-preview
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      GIT_TOKEN: ${{secrets.GIT_TOKEN}}
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,24 +104,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Cache node_modules & npx
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache
-          key: ${{ runner.os }}-build-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build & Prepare
-        run: |
-          yarn build
-          cp netlify.toml dist/
-
       - name: Create .env from Secret
         run: |
           echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
@@ -77,23 +112,18 @@ jobs:
         if: ${{ hashFiles('.env') != '' }}
         run: |
           npx netlify-cli env:import .env --replace-existing
-          echo "import .env file to netlify successfully"
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      - name: Deploy with Build (FORCE REBUILD)
+      - name: Deploy Production To Netlify
         id: netlify_deploy
+        continue-on-error: false
         run: |
-          npx netlify-cli deploy \
-            --prod \
-            --dir=dist \
-            --build="yarn build" \
-            --message="Force build deploy from ${{ github.sha }}" \
-            --json
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      - name: Output Deploy URL
-        run: echo "Deployed to ${{ steps.netlify_deploy.outputs.deploy-url }}"
+          OUTPUT=$(npx netlify-cli deploy \
+           --prod \
+           --site=$NETLIFY_SITE_ID \
+           --auth=$NETLIFY_AUTH_TOKEN \
+           --message="Deploy from ${{ github.sha }}" \
+           --json)
+           URL=$(echo "$OUTPUT" | jq -r '.deploy_url')
+           echo "url=$URL" >> $GITHUB_OUTPUT
+      - name: Notify Success
+        run: |
+          echo "Production deployed: ${{ steps.netlify_deploy.outputs.url }}"

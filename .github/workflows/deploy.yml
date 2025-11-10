@@ -67,8 +67,8 @@ jobs:
         id: netlify_deploy
         run: |
           npx netlify-cli deploy \
-          --site=$NETLIFY_SITE_ID
-          --auth=$NETLIFY_AUTH_TOKEN
+          --site=$NETLIFY_SITE_ID \
+          --auth=$NETLIFY_AUTH_TOKEN \
           --message="Deploy from ${{ github.sha }}"
 
       - name: Comment
@@ -113,8 +113,8 @@ jobs:
         run: |
           npx netlify-cli deploy \
           --prod \
-          --site=$NETLIFY_SITE_ID
-          --auth=$NETLIFY_AUTH_TOKEN
+          --site=$NETLIFY_SITE_ID \
+          --auth=$NETLIFY_AUTH_TOKEN \
           --message="Deploy from ${{ github.sha }}"
 
       - name: Notify Success

@@ -1,16 +1,11 @@
 import Box from '@mui/material/Box'
 
 export default function HeaderDashboard() {
-  const env = `
-  port: ${import.meta.env.VITE_APP_PORT}
-  url: ${import.meta.env.VITE_API_URL}
-  key storage: ${import.meta.env.VITE_KEY_STORAGE_ACCOUNT}
-  `
   return (
     <>
       <Box className="text-center! py-[3.2rem]!">
         <h2 className="text-[3.6rem]! font-bold! text-white! drop-shadow-2xl! mb-2!">
-          Admin Dashboard {env}
+          Admin Dashboard
         </h2>
 
         <p

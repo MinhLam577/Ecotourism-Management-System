@@ -69,9 +69,7 @@ jobs:
           npx netlify-cli deploy \
           --site=$NETLIFY_SITE_ID
           --auth=$NETLIFY_AUTH_TOKEN
-          --message="Deploy from ${{ github.sha }}" \
-          --json >> deploy-output.json
-          echo "deploy_url=$(jq -r .deploy_url deploy-output.json)" >> $GITHUB_OUTPUT
+          --message="Deploy from ${{ github.sha }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -121,9 +119,7 @@ jobs:
           --prod \
           --site=$NETLIFY_SITE_ID
           --auth=$NETLIFY_AUTH_TOKEN
-          --message="Deploy from ${{ github.sha }}" \
-          --json > deploy-output.json
-          echo "deploy_url=$(jq -r .deploy_url deploy-output.json)" >> $GITHUB_OUTPUT
+          --message="Deploy from ${{ github.sha }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

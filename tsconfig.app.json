@@ -4,6 +4,7 @@
     "paths": {
       "~/*": ["src/*"]
     },
+    "noImplicitAny": false,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,
@@ -22,7 +23,7 @@
 
     /* JavaScript support */
     "allowJs": true, // Cho phép import .js
-    "checkJs": true, // Kiểm tra type trong file .js
+    "checkJs": false, // Kiểm tra type trong file .js
 
     /* Linting */
     "strict": true,

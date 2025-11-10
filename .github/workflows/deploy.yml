@@ -76,7 +76,7 @@ jobs:
       - name: Import .env to Netlify
         if: ${{ hashFiles('.env') != '' }}
         run: |
-          npx netlify-cli env:import .env --replace-existing --scope build
+          npx netlify-cli env:import .env --replace-existing
           echo "import .env file to netlify successfully"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}

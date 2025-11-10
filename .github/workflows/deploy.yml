@@ -37,10 +37,47 @@ jobs:
       - name: Build Project
         run: yarn build
 
-  deploy:
+  deploy-preview:
+    name: Deploy Preview (PR)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Create .env from Secret
+        run: |
+          echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+
+      - name: Import .env to Netlify
+        if: ${{ hashFiles('.env') != '' }}
+        run: |
+          npx netlify-cli env:import .env --replace-existing
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Deploy Preview to Netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./dist
+          production-deploy: false
+          alias: pr-${{ github.event.pull_request.number }}
+          github-token: ${{ secrets.GIT_TOKEN }}
+          deploy-message: 'Preview PR #${{ github.event.pull_request.number }}'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  deploy-production:
     name: Deploy to Netlify
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,24 +88,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Cache node_modules & npx
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache
-          key: ${{ runner.os }}-build-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build & Prepare
-        run: |
-          yarn build
-          cp netlify.toml dist/
-
       - name: Create .env from Secret
         run: |
           echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
@@ -77,23 +96,21 @@ jobs:
         if: ${{ hashFiles('.env') != '' }}
         run: |
           npx netlify-cli env:import .env --replace-existing
-          echo "import .env file to netlify successfully"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      - name: Deploy with Build (FORCE REBUILD)
-        id: netlify_deploy
-        run: |
-          npx netlify-cli deploy \
-            --prod \
-            --dir=dist \
-            --build="yarn build" \
-            --message="Force build deploy from ${{ github.sha }}" \
-            --json
+      - name: Deploy to Netlify (Auto Build)
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./dist
+          production-deploy: true
+          github-token: ${{ secrets.GIT_TOKEN }}
+          deploy-message: 'Deploy from ${{ github.sha }}'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 10
 
       - name: Output Deploy URL
         run: echo "Deployed to ${{ steps.netlify_deploy.outputs.deploy-url }}"

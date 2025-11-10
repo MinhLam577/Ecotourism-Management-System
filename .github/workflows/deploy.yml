@@ -82,14 +82,15 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      - name: Deploy to Netlify
+      - name: Deploy with Build (FORCE REBUILD)
         id: netlify_deploy
-        uses: nwtgck/actions-netlify@v3
-        with:
-          publish-dir: './dist'
-          production-deploy: true
-          netlify-config-path: './dist/netlify.toml'
-          deploy-message: 'Deploy from ${{ github.sha }} (${{ github.ref_name }})'
+        run: |
+          npx netlify-cli deploy \
+            --prod \
+            --dir=dist \
+            --build="yarn build" \
+            --message="Force build deploy from ${{ github.sha }}" \
+            --json
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

@@ -39,10 +39,11 @@ jobs:
 
   deploy-preview:
     name: Deploy Preview (PR)
-    env:
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
     needs: build
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      GIT_TOKEN: ${{secrets.GIT_TOKEN}}
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
@@ -66,12 +67,15 @@ jobs:
       - name: Deploy Preview to Netlify
         id: netlify_deploy
         run: |
-          npx netlify-cli deploy \
+          OUTPUT=$(npx netlify-cli deploy \
           --site=$NETLIFY_SITE_ID \
           --auth=$NETLIFY_AUTH_TOKEN \
-          --message="Deploy from ${{ github.sha }}"
+          --message="PR #${{ github.event.pull_request.number }}" \
+          --json)
+          URL=$(echo "$OUTPUT" | jq -r '.deploy_url')
+          echo "url=$URL" >> $GITHUB_OUTPUT
 
-      - name: Comment
+      - name: Comment PR with Preview URL
         uses: actions/github-script@v7
         with:
           script: |
@@ -79,15 +83,16 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Deployed to: ${{ steps.netlify_deploy.outputs.deploy_url }}`
+              body: `Preview URL: ${{ steps.netlify_deploy.outputs.url }}`
             })
 
   deploy-production:
     name: Deploy to Netlify
+    needs: deploy-preview
     env:
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-    needs: build
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      GIT_TOKEN: ${{secrets.GIT_TOKEN}}
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
@@ -111,12 +116,14 @@ jobs:
         id: netlify_deploy
         continue-on-error: false
         run: |
-          npx netlify-cli deploy \
-          --prod \
-          --site=$NETLIFY_SITE_ID \
-          --auth=$NETLIFY_AUTH_TOKEN \
-          --message="Deploy from ${{ github.sha }}"
-
+          OUTPUT=$(npx netlify-cli deploy \
+           --prod \
+           --site=$NETLIFY_SITE_ID \
+           --auth=$NETLIFY_AUTH_TOKEN \
+           --message="Deploy from ${{ github.sha }}" \
+           --json)
+           URL=$(echo "$OUTPUT" | jq -r '.deploy_url')
+           echo "url=$URL" >> $GITHUB_OUTPUT
       - name: Notify Success
         run: |
-          echo "Production deployed: ${{ steps.netlify_deploy.outputs.deploy_url }}"
+          echo "Production deployed: ${{ steps.netlify_deploy.outputs.url }}"

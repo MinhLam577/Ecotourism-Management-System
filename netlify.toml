@@ -1,4 +1,10 @@
+[build]
+  command = "yarn build"     
+  publish = "dist"              
+  environment = { NODE_VERSION = "20" } 
+
 [[redirects]]
   from = "/*"
-  to = "/"
+  to = "/index.html"
   status = 200
+  force = true

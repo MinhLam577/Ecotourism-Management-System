@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './LoginForm.css'
-import { login } from '../../../../../esce/front_end/src/API/Au'
+import { login } from '~/api/instances/Au'
 import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {

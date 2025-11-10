@@ -39,6 +39,9 @@ jobs:
 
   deploy-preview:
     name: Deploy Preview (PR)
+    env:
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
@@ -59,9 +62,6 @@ jobs:
         if: ${{ hashFiles('.env') != '' }}
         run: |
           npx netlify-cli env:import .env --replace-existing
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Deploy Preview to Netlify
         id: netlify_deploy
@@ -70,9 +70,6 @@ jobs:
           --site=$NETLIFY_SITE_ID
           --auth=$NETLIFY_AUTH_TOKEN
           --message="Deploy from ${{ github.sha }}"
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Comment
         uses: actions/github-script@v7
@@ -87,6 +84,9 @@ jobs:
 
   deploy-production:
     name: Deploy to Netlify
+    env:
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
@@ -107,10 +107,6 @@ jobs:
         if: ${{ hashFiles('.env') != '' }}
         run: |
           npx netlify-cli env:import .env --replace-existing
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
       - name: Deploy Production To Netlify
         id: netlify_deploy
         continue-on-error: false
@@ -120,9 +116,6 @@ jobs:
           --site=$NETLIFY_SITE_ID
           --auth=$NETLIFY_AUTH_TOKEN
           --message="Deploy from ${{ github.sha }}"
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Notify Success
         run: |

@@ -2,8 +2,6 @@ import Button, { type ButtonProps as MuiButtonProps } from '@mui/material/Button
 import { cn } from '~/utils/tailwind.utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 import CircularProgress from '@mui/material/CircularProgress'
-import type { ExtraButtonSize } from '~/types/button'
-import type { ExtendProp } from '~/utils/types.utils'
 
 // Định nghĩa variants bằng cva (Tailwind)
 const buttonVariants = cva('', {
@@ -33,7 +31,7 @@ const buttonVariants = cva('', {
 })
 
 // Props type
-export type BaseButtonProps = ExtendProp<MuiButtonProps, 'size', ExtraButtonSize> &
+export type BaseButtonProps = MuiButtonProps &
   VariantProps<typeof buttonVariants> & {
     loading?: boolean
     className?: string

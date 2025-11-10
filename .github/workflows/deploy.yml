@@ -3,21 +3,25 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
+    name: Build Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Branch
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Cache node modules & npx
+      - name: Cache node_modules & npx
         uses: actions/cache@v4
         with:
           path: |
@@ -31,19 +35,49 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Project
+        run: yarn build
+
+  deploy:
+    name: Deploy to Netlify
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache node_modules & npx
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache
+          key: ${{ runner.os }}-build-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build & Prepare
         run: |
           yarn build
           cp netlify.toml dist/
 
       - name: Import .env to Netlify
-        if: ${{ hashFiles('.env') != '' }}
-        run: npx netlify-cli env:import .env --replace-existing --scope build
+        if: ${{ hashFiles('.env.netlify') != '' }}
+        run: npx netlify-cli env:import .env.netlify --replace-existing --scope build
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Deploy to Netlify
-        id: deploy
+        id: netlify_deploy
         uses: nwtgck/actions-netlify@v3
         with:
           publish-dir: './dist'
@@ -55,4 +89,4 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Output Deploy URL
-        run: echo "Deployed to ${{ steps.deploy.outputs.deploy-url }}"
+        run: echo "Deployed to ${{ steps.netlify_deploy.outputs.deploy-url }}"

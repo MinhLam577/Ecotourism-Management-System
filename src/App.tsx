@@ -1,18 +1,38 @@
-import { MainLayout } from "~/components/layout"
-import { Suspense } from "react"
-import { BrowserRouter, Routes, Route } from "react-router"
-import { DashBoard } from "~/pages"
+import { BrowserRouter, Routes, Route } from 'react-router'
+import { Suspense } from 'react'
+import { MainLayout } from '~/components/layout'
+import { DashBoard } from '~/pages'
+import LoginForm from './components/authenticate/login/LoginForm'
+import ForgotPassword from './components/authenticate/forgotPassword/ForgotPassword'
+import Register from './components/authenticate/register/Register'
+import OTPVerification from './components/authenticate/OTPVerify/OTPVerification'
+import ResetPassword from './components/authenticate/resetPassword/ResetPassword'
+import CreateTour from './components/createTour/CreateTour'
+import SocialMedia from './components/socialMedia/SocialMedia'
+
 function App() {
   return (
     <BrowserRouter>
-      <MainLayout>
-        <Suspense fallback={<div>Đang tải...</div>}>
-          <Routes>
+      <Suspense fallback={<div>Đang tải...</div>}>
+        <Routes>
+          {/* Các route KHÔNG dùng MainLayout */}
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/otp-verification" element={<OTPVerification />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+
+          {/* Các route DÙNG MainLayout */}
+          <Route element={<MainLayout />}>
             <Route path="/" element={<DashBoard />} />
-            <Route path="*" element={<div>404 - Không tìm thấy trang</div>} />
-          </Routes>
-        </Suspense>
-      </MainLayout>
+            <Route path="/create-tour" element={<CreateTour />} />
+            <Route path="/social-media" element={<SocialMedia />} />
+          </Route>
+
+          {/* 404 */}
+          <Route path="*" element={<div>404 - Không tìm thấy trang</div>} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

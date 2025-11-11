@@ -25,5 +25,8 @@ dist-ssr
 .env
 # Local Netlify folder
 .netlify
+<<<<<<< HEAD
 
 netlify.api.method
+=======
+>>>>>>> 01a86d6cc8c426d54cf8695abb225bd3df041270

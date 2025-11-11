@@ -116,15 +116,6 @@ jobs:
       - name: Setup Netlify CLI path
         run: echo "$(yarn global bin)" >> $GITHUB_PATH
 
-      - name: Delete old preview deploys
-        run: |
-          echo "🔍 Fetching old preview deploys..."
-          PREV_DEPLOYS=$(netlify api listSiteDeploys -d '{"site_id":"'$NETLIFY_SITE_ID'"}' | jq -r '.[] | select(.context=="deploy-preview") | .id')
-          for ID in $PREV_DEPLOYS; do
-            echo "🗑️  Deleting preview deploy $ID"
-            netlify api deleteDeploy -d '{"deploy_id":"'$ID'"}' || true
-          done
-
       - name: Create .env file from secret
         run: echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
 
@@ -146,6 +137,14 @@ jobs:
           URL=$(echo "$OUTPUT" | jq -r '.deploy_url')
           echo "url=$URL" >> $GITHUB_OUTPUT
 
+      - name: Delete old preview deploys
+        run: |
+          echo "🔍 Fetching old preview deploys..."
+          PREV_DEPLOYS=$(netlify api listSiteDeploys -d '{"site_id":"'$NETLIFY_SITE_ID'"}' | jq -r '.[] | select(.context=="deploy-preview") | .id')
+          for ID in $PREV_DEPLOYS; do
+            echo "🗑️  Deleting preview deploy $ID"
+            netlify api deleteDeploy -d '{"deploy_id":"'$ID'"}' || true
+          done
       - name: Notify Success
         run: |
           echo "✅ Production deployed successfully: ${{ steps.netlify_deploy.outputs.url }}"

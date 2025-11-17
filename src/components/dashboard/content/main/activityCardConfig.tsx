@@ -1,4 +1,4 @@
-import type { ActivityCardProps, ActivityFeedProps } from '~/types/common'
+import type { ActivityCardProps, ActivityFeedProps } from '~/types'
 
 const ActivityFeeds = [
   {

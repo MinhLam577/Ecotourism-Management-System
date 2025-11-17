@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import type { PriorityTaskCardFeedProps } from '~/types/common'
+import type { PriorityTaskCardFeedProps } from '~/types'
 import { cn } from '~/utils/tailwind.utils'
 
 export default function PriorityTaskFeed({

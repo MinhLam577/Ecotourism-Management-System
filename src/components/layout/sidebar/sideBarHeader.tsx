@@ -1,9 +1,9 @@
-import BaseButton from '~/components/common/BaseButton'
 import { pxToRem } from '~/utils/convert-px-to-unit.utils'
 import MenuIcon from '@mui/icons-material/Menu'
 import type { Dispatch, SetStateAction } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
 interface SideBarHeaderProps {
   open: boolean
@@ -52,7 +52,7 @@ const SideBarHeader = ({ open, setOpen }: SideBarHeaderProps) => {
       </Typography>
 
       {/* === TOGGLE BUTTON – luôn hiện, căn giữa khi mini === */}
-      <BaseButton
+      <Button
         onClick={() => setOpen((o) => !o)}
         sx={{
           minWidth: pxToRem(40),
@@ -81,7 +81,7 @@ const SideBarHeader = ({ open, setOpen }: SideBarHeaderProps) => {
             transform: open ? 'rotate(0deg)' : 'rotate(180deg)'
           }}
         />
-      </BaseButton>
+      </Button>
     </Box>
   )
 }

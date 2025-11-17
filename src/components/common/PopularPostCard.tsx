@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import type { PopularPostProps } from '~/types/common'
+import type { PopularPostProps } from '~/types'
 import { cn } from '~/utils/tailwind.utils'
 import PopularPostFeed from './PopularPostFeed'
 

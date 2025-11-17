@@ -7,8 +7,7 @@ import ForgotPassword from './components/authenticate/forgotPassword/ForgotPassw
 import Register from './components/authenticate/register/Register'
 import OTPVerification from './components/authenticate/OTPVerify/OTPVerification'
 import ResetPassword from './components/authenticate/resetPassword/ResetPassword'
-import CreateTour from './components/createTour/CreateTour'
-import SocialMedia from './components/socialMedia/SocialMedia'
+import UserPage from './components/users'
 
 function App() {
   return (
@@ -25,8 +24,7 @@ function App() {
           {/* Các route DÙNG MainLayout */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<DashBoard />} />
-            <Route path="/create-tour" element={<CreateTour />} />
-            <Route path="/social-media" element={<SocialMedia />} />
+            <Route path="/users" element={<UserPage />} />
           </Route>
 
           {/* 404 */}

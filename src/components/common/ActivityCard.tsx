@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography'
-import type { ActivityCardProps } from '~/types/common'
+import type { ActivityCardProps } from '~/types'
 import ActivityFeed from './ActivityFeed'
 import { cn } from '~/utils/tailwind.utils'
 import Box from '@mui/material/Box'

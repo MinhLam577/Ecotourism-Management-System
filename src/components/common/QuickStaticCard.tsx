@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import type { QuickStaticCardProps } from '~/types/common'
+import type { QuickStaticCardProps } from '~/types'
 import { cn } from '~/utils/tailwind.utils'
 import QuickStaticFeed from './QuickStaticFeed'
 

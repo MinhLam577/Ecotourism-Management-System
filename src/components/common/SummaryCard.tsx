@@ -1,6 +1,6 @@
-import type { SummaryCardProps } from '~/types/common'
+import type { SummaryCardProps } from '~/types'
 
-const SummaryCar = ({
+const SummaryCard = ({
   bgColor = 'bg-gradient-to-br from-blue-50 to-blue-100',
   textColor = 'text-blue-600',
   borderColor,
@@ -25,4 +25,4 @@ const SummaryCar = ({
   )
 }
 
-export default SummaryCar
+export default SummaryCard

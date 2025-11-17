@@ -1,4 +1,4 @@
-import type { SummaryCardProps } from '~/types/common'
+import type { SummaryCardProps } from '~/types'
 import LegendToggleIcon from '@mui/icons-material/LegendToggle'
 import EmailIcon from '@mui/icons-material/Email'
 import HeadphonesIcon from '@mui/icons-material/Headphones'

@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import type { PopularPostFeedProps } from '~/types/common'
+import type { PopularPostFeedProps } from '~/types'
 import { cn } from '~/utils/tailwind.utils'
 
 export default function PopularPostFeed({

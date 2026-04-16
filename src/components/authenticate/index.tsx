@@ -1,5 +1,0 @@
-export { OTPVerify } from './OTPVerify'
-export { ForgotPassword } from './forgotPassword'
-export { LoginForm } from './login'
-export { Register } from './register'
-export { ResetPassword } from './resetPassword'
